@@ -5,7 +5,6 @@ import { Search, MapPin, User, Heart, ShoppingCart } from 'lucide-react';
 const Header = () => {
   return (
     <header className="header">
-      {/* Parte Superior Vermelha */}
       <div className="header-top">
         <div className="container">
           
@@ -36,10 +35,6 @@ const Header = () => {
             </div>
 
             <div className="icon-btn">
-              <Heart size={24} />
-            </div>
-
-            <div className="icon-btn">
               <ShoppingCart size={24} />
             </div>
           </div>
@@ -51,11 +46,11 @@ const Header = () => {
       <nav className="header-nav">
         <div className="container">
           <ul>
-            <li><a href="#">Pokémon</a></li>
-            <li><a href="#">Magic: The Gathering</a></li>
-            <li><a href="#">One Piece</a></li>
-            <li><a href="#">Yu-Gi-Oh!</a></li>
-            <li><a href="#" className="highlight">Ofertas</a></li>
+            <li><a href="#pokemon">Pokémon</a></li>
+            <li><a href="#magic">Magic: The Gathering</a></li>
+            <li><a href="#onepiece">One Piece</a></li>
+            <li><a href="#yugioh">Yu-Gi-Oh!</a></li>
+            <li><a href="#acessorios">Acessórios</a></li>
           </ul>
         </div>
       </nav>

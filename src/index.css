@@ -26,3 +26,7 @@ body {
   padding: 0;
   text-align: left; /* O Vite centraliza texto por padrão, aqui voltamos ao normal */
 }
+
+html {
+  scroll-behavior: smooth; /* Isso faz a rolagem ser animada e não "pular" seco */
+}

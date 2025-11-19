@@ -1,0 +1,30 @@
+.product-section {
+  padding: 40px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.section-title {
+  font-size: 24px;
+  color: #0033cc; /* Azul do print */
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  border-left: 5px solid #cc0000; /* Detalhe vermelho ao lado */
+  padding-left: 10px;
+}
+
+/* Aqui faz a mágica da linha horizontal */
+.products-grid {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto; /* Permite rolar para o lado se não couber */
+  padding-bottom: 20px; /* Espaço para a barra de rolagem não colar */
+}
+
+/* Estiliza a barra de rolagem para ficar bonitinha */
+.products-grid::-webkit-scrollbar {
+  height: 8px;
+}
+.products-grid::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
