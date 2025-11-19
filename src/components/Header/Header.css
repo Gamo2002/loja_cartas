@@ -1,0 +1,138 @@
+/* Reset básico para o header */
+.header {
+  font-family: 'Arial', sans-serif;
+  width: 100%;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+/* --- PARTE SUPERIOR (VERMELHA) --- */
+.header-top {
+  background-color: #0af4aaff; /* Vermelho estilo Centauro */
+  padding: 15px 0;
+  color: white;
+}
+
+/* Logo */
+.logo h1 {
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: -1px;
+  margin: 0;
+  font-size: 24px;
+}
+.logo-highlight {
+  font-weight: 300;
+}
+
+/* Barra de Busca */
+.search-bar {
+  flex: 1;
+  margin: 0 40px;
+  background: white;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+}
+
+.search-bar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 8px;
+  font-size: 14px;
+}
+
+.search-bar button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+/* Ações (Direita) */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.action-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.icon-btn {
+  cursor: pointer;
+}
+
+/* --- PARTE INFERIOR (MENU BRANCO) --- */
+.header-nav {
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  height: 50px;
+  display: flex;
+  align-items: center;
+}
+
+.header-nav ul {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  padding: 0;
+  margin: 0;
+}
+
+.header-nav a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+.header-nav a:hover {
+  color: #cc0000;
+  border-bottom: 2px solid #cc0000;
+  padding-bottom: 13px; /* Ajuste para a borda ficar alinhada */
+}
+
+.header-nav .highlight {
+  color: #cc0000;
+}
+
+/* Responsividade básica */
+@media (max-width: 768px) {
+  .hide-mobile {
+    display: none;
+  }
+  .search-bar {
+    margin: 0 15px;
+  }
+  .header-nav {
+    overflow-x: auto; /* Permite rolar o menu no celular */
+  }
+  .header-nav ul {
+    padding-left: 20px;
+    white-space: nowrap;
+  }
+}
