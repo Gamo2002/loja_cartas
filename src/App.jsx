@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './components/Header/Header';
 import ProductSection from './components/ProductSection/ProductSection';
 import ProductCard from './components/ProductCard/ProductCard';
+import Footer from './components/Footer/Footer';
 
 function App() {
   // Dados simulados (depois virão do Banco de Dados)
@@ -37,7 +38,7 @@ function App() {
     { id: 3, name: 'Mana Vault', price: '300,00', image: 'https://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=382994&type=card', type: 'Rara' },
   ];
 
-  
+
   return (
     <div>
       <Header />
@@ -107,6 +108,9 @@ function App() {
         </ProductSection>
 
       </main>
+
+      <Footer />
+
     </div>
   );
 }

@@ -1,0 +1,89 @@
+.footer {
+  background-color: #222;
+  color: #f5f5f5;
+  padding-top: 40px;
+  margin-top: 60px; /* Dá um espaço do conteúdo principal */
+  border-top: 4px solid #0af4aaff; 
+}
+
+/* Organiza as 3 colunas */
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap; /* Permite quebrar linha no celular */
+  gap: 30px;
+  padding-bottom: 40px;
+}
+
+.footer-section {
+  flex: 1;
+  min-width: 250px;
+}
+
+.footer-section h3 {
+  font-style: italic;
+  margin-bottom: 15px;
+}
+
+.footer-section h4 {
+  margin-bottom: 20px;
+  font-size: 16px;
+  text-transform: uppercase;
+  color: #aaa;
+}
+
+/* Lista de contatos com ícones */
+.contact-list {
+  list-style: none;
+  padding: 0;
+}
+
+.contact-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: #ddd;
+}
+
+/* Lista de Links */
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 10px;
+}
+
+.footer-section a {
+  color: #ddd;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+
+.footer-section a:hover {
+  color: #0af4aaff;
+  text-decoration: underline;
+}
+
+/* Barra final preta */
+.footer-bottom {
+  background-color: #111;
+  padding: 20px 0;
+  font-size: 12px;
+  color: #777;
+  text-align: center;
+}
+
+.footer-bottom .container {
+  flex-direction: column; /* Empilha o copyright e o CNPJ */
+  align-items: center;
+  justify-content: center;
+}
+
+.cnpj {
+  margin-top: 5px;
+}
