@@ -1,5 +1,6 @@
 import React from 'react';
 import './Header.css';
+import { Link } from 'react-router-dom';
 import { Search, MapPin, User, Heart, ShoppingCart } from 'lucide-react';
 
 const Header = () => {
@@ -10,7 +11,9 @@ const Header = () => {
           
           {/* 1. Logo (Simulado com texto por enquanto) */}
           <div className="logo">
-            <h1>CENTRO<span className="logo-highlight">CARTAS</span></h1>
+            <Link to="/" className="logo-link">
+              <h1>CENTRO<span className="logo-highlight">CARTAS</span></h1>
+            </Link>
           </div>
 
           {/* 2. Barra de Busca */}

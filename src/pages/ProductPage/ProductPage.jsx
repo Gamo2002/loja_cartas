@@ -24,7 +24,6 @@ const ProductPage = () => {
   return (
     <div className="product-page container">
       <div className="breadcrumbs">
-        Home &gt; {product.category} &gt; <span>{product.name}</span>
       </div>
 
       <div className="product-detail-container">

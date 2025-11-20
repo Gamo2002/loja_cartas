@@ -28,6 +28,16 @@
   margin: 0;
   font-size: 24px;
 }
+.logo-link {
+  text-decoration: none;
+  color: inherit; /* Herda a cor branca do pai (.header-top) */
+  cursor: pointer;
+  display: block; /* Garante que o clique pegue a área toda */
+}
+
+.logo-link:hover {
+  opacity: 0.9; /* Um efeitinho sutil quando passa o mouse */
+}
 .logo-highlight {
   font-weight: 300;
 }
