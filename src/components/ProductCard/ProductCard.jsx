@@ -2,11 +2,11 @@ import React from 'react';
 import './ProductCard.css';
 import { useNavigate } from 'react-router-dom';
 
-const ProductCard = ({ image, name, price, type }) => {
+const ProductCard = ({ id, image, name, price, type }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate('/produto');
+    navigate(`/produto/${id}`);
   };
 
   return (

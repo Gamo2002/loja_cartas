@@ -20,7 +20,7 @@ function App() {
           <Route path="/" element={<Home />} />
 
           {/* Quando o link for /produto, some a Home e aparece a tela de compra */}
-          <Route path="/produto" element={<ProductPage />} />
+          <Route path="/produto/:id" element={<ProductPage />} />
         </Routes>
       </main>
 

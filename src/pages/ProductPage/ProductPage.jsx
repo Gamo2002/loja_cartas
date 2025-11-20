@@ -1,50 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom'; // Importar useParams para ler a URL
+import { products } from '../../data/products'; // Importar o banco de dados
 import { ShoppingCart, CreditCard, Truck } from 'lucide-react';
 import './ProductPage.css';
 
 const ProductPage = () => {
-  // Simulação de dados (depois virá do Banco de Dados via ID)
-  const product = {
-    name: "Charizard VMAX - Darkness Ablaze",
-    price: 299.90,
-    description: "Uma das cartas mais cobiçadas da coleção Darkness Ablaze. Esta carta VMAX possui acabamento Full Art texturizado e está em estado Near Mint (NM).",
-    image: "https://assets.pokemon.com/assets/cms2/img/cards/web/SWSH3/SWSH3_EN_20.png",
-    collection: "Sword & Shield: Darkness Ablaze",
-    rarity: "Ultra Rare"
-  };
-
+  const { id } = useParams(); // Pega o número lá da URL (ex: 1, 5, 12)
   const [quantity, setQuantity] = useState(1);
+  const [product, setProduct] = useState(null);
+
+  // Quando a tela carrega, procura o produto certo
+  useEffect(() => {
+    // O id da URL vem como texto ("1"), precisamos comparar com número
+    const foundProduct = products.find(p => p.id === parseInt(id));
+    setProduct(foundProduct);
+  }, [id]);
+
+  // Se não achar o produto (ou estiver carregando)
+  if (!product) {
+    return <div className="container" style={{padding: '50px'}}><h2>Produto não encontrado!</h2></div>;
+  }
 
   return (
     <div className="product-page container">
-      {/* Caminho de Pão (Breadcrumbs) */}
       <div className="breadcrumbs">
-        Home &gt; Pokémon &gt; <span>{product.name}</span>
+        Home &gt; {product.category} &gt; <span>{product.name}</span>
       </div>
 
       <div className="product-detail-container">
         
-        {/* Coluna da Esquerda: Imagem */}
         <div className="product-image-section">
           <div className="main-image-box">
             <img src={product.image} alt={product.name} />
           </div>
         </div>
 
-        {/* Coluna da Direita: Informações */}
         <div className="product-info-section">
           <h1 className="product-title">{product.name}</h1>
-          <p className="product-collection">{product.collection} | {product.rarity}</p>
+          <p className="product-collection">Coleção Especial | {product.type}</p>
 
           <div className="price-box">
             <span className="currency">R$</span>
-            <span className="value">{product.price.toFixed(2).replace('.', ',')}</span>
+            <span className="value">{product.price}</span>
+             {/* Lógica simples para parcelamento só visual */}
             <p className="payment-info">
-              <CreditCard size={16} /> em até 3x de R$ {(product.price / 3).toFixed(2).replace('.', ',')} sem juros
+              <CreditCard size={16} /> Cartão de Crédito ou Pix
             </p>
           </div>
 
-          {/* Seletor de Quantidade e Botão */}
           <div className="purchase-actions">
             <div className="quantity-selector">
               <button onClick={() => setQuantity(q => Math.max(1, q - 1))}>-</button>
@@ -56,15 +59,6 @@ const ProductPage = () => {
               <ShoppingCart size={20} />
               COMPRAR AGORA
             </button>
-          </div>
-
-          {/* Simulador de Frete */}
-          <div className="shipping-simulator">
-            <p><Truck size={18} /> Calcule o frete:</p>
-            <div className="shipping-input">
-              <input type="text" placeholder="00000-000" />
-              <button>OK</button>
-            </div>
           </div>
 
           <div className="product-description">
