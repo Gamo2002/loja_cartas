@@ -13,9 +13,8 @@
   padding: 0 20px;
 }
 
-/* --- PARTE SUPERIOR (VERMELHA) --- */
 .header-top {
-  background-color: #0af4aaff; /* Vermelho estilo Centauro */
+  background-color: #0af4aaff;
   padding: 15px 0;
   color: white;
 }
