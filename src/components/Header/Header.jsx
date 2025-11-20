@@ -2,8 +2,10 @@ import React from 'react';
 import './Header.css';
 import { Link } from 'react-router-dom';
 import { Search, MapPin, User, Heart, ShoppingCart } from 'lucide-react';
+import { useCart } from '../../context/CartContext';
 
 const Header = () => {
+  const { cartItems } = useCart();
   return (
     <header className="header">
       <div className="header-top">
@@ -37,9 +39,29 @@ const Header = () => {
               </div>
             </div>
 
-            <div className="icon-btn">
-              <ShoppingCart size={24} />
-            </div>
+            
+              <Link to="/carrinho" className="icon-btn" style={{textDecoration: 'none', color: 'inherit', position: 'relative'}}>
+                  <ShoppingCart size={24} />
+                     {cartItems.length > 0 && (
+                      <span style={{
+                        position: 'absolute', 
+                        top: -8, 
+                        right: -8, 
+                        background: '#cc0000', 
+                        color: 'white', 
+                        borderRadius: '50%', 
+                        width: '18px', 
+                        height: '18px', 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        justifyContent: 'center',
+                        fontSize: '10px',
+                        fontWeight: 'bold'
+                        }}>
+                          {cartItems.length}
+                        </span>
+                      )}
+              </Link>
           </div>
 
         </div>

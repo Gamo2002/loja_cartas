@@ -3,11 +3,13 @@ import { useParams } from 'react-router-dom'; // Importar useParams para ler a U
 import { products } from '../../data/products'; // Importar o banco de dados
 import { ShoppingCart, CreditCard, Truck } from 'lucide-react';
 import './ProductPage.css';
+import { useCart } from '../../context/CartContext';
 
 const ProductPage = () => {
   const { id } = useParams(); // Pega o número lá da URL (ex: 1, 5, 12)
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState(null);
+  const { addToCart } = useCart();
 
   // Quando a tela carrega, procura o produto certo
   useEffect(() => {
@@ -54,7 +56,10 @@ const ProductPage = () => {
               <button onClick={() => setQuantity(q => q + 1)}>+</button>
             </div>
             
-            <button className="btn-buy">
+            <button className="btn-buy" onClick={() => {
+                addToCart(product, quantity);
+                alert("Produto adicionado ao carrinho!"); // Feedback simples
+              }}>
               <ShoppingCart size={20} />
               COMPRAR AGORA
             </button>
