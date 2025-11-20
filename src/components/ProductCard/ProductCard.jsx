@@ -1,9 +1,16 @@
 import React from 'react';
 import './ProductCard.css';
+import { useNavigate } from 'react-router-dom';
 
-const ProductCard = ({ image, name, price, type }) => {
+const ProductCard = ({ id, image, name, price, type }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/produto/${id}`);
+  };
+
   return (
-    <div className="product-card">
+    <div className="product-card" onClick={handleClick}>
       {/* Tagzinha de tipo (Foil, Normal, etc) */}
       {type && <span className="card-badge">{type}</span>}
       

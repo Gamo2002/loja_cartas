@@ -1,8 +1,11 @@
 import React from 'react';
 import './Header.css';
+import { Link } from 'react-router-dom';
 import { Search, MapPin, User, Heart, ShoppingCart } from 'lucide-react';
+import { useCart } from '../../context/CartContext';
 
 const Header = () => {
+  const { cartItems } = useCart();
   return (
     <header className="header">
       <div className="header-top">
@@ -10,7 +13,9 @@ const Header = () => {
           
           {/* 1. Logo (Simulado com texto por enquanto) */}
           <div className="logo">
-            <h1>CENTRO<span className="logo-highlight">CARTAS</span></h1>
+            <Link to="/" className="logo-link">
+              <h1>CENTRO<span className="logo-highlight">CARTAS</span></h1>
+            </Link>
           </div>
 
           {/* 2. Barra de Busca */}
@@ -21,11 +26,7 @@ const Header = () => {
 
           {/* 3. Ações (CEP, Login, Favoritos, Carrinho) */}
           <div className="actions">
-            <div className="action-item hide-mobile">
-              <MapPin size={20} />
-              <span>Informe seu CEP</span>
-            </div>
-            
+                        
             <div className="action-item">
               <User size={20} />
               <div className="user-info hide-mobile">
@@ -34,9 +35,29 @@ const Header = () => {
               </div>
             </div>
 
-            <div className="icon-btn">
-              <ShoppingCart size={24} />
-            </div>
+            
+              <Link to="/carrinho" className="icon-btn" style={{textDecoration: 'none', color: 'inherit', position: 'relative'}}>
+                  <ShoppingCart size={24} />
+                     {cartItems.length > 0 && (
+                      <span style={{
+                        position: 'absolute', 
+                        top: -8, 
+                        right: -8, 
+                        background: '#cc0000', 
+                        color: 'white', 
+                        borderRadius: '50%', 
+                        width: '18px', 
+                        height: '18px', 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        justifyContent: 'center',
+                        fontSize: '10px',
+                        fontWeight: 'bold'
+                        }}>
+                          {cartItems.length}
+                        </span>
+                      )}
+              </Link>
           </div>
 
         </div>
