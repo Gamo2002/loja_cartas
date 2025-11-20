@@ -26,11 +26,7 @@ const Header = () => {
 
           {/* 3. Ações (CEP, Login, Favoritos, Carrinho) */}
           <div className="actions">
-            <div className="action-item hide-mobile">
-              <MapPin size={20} />
-              <span>Informe seu CEP</span>
-            </div>
-            
+                        
             <div className="action-item">
               <User size={20} />
               <div className="user-info hide-mobile">
