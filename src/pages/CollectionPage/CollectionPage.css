@@ -1,0 +1,45 @@
+.collection-page {
+  padding-top: 40px;
+  padding-bottom: 60px;
+}
+
+.collection-header {
+  margin-bottom: 30px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+}
+
+.collection-header h1 {
+  color: #333;
+  font-size: 32px;
+  margin-bottom: 5px;
+  text-transform: capitalize;
+}
+
+.collection-header p {
+  color: #666;
+  font-size: 14px;
+}
+
+/* A GRANDE MÁGICA: GRID RESPONSIVO */
+.collection-grid {
+  display: grid;
+  /* Cria colunas automáticas de no mínimo 220px. 
+     Se a tela for grande, cabem 5. Se for pequena, cabem 2. */
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 25px;
+  width: 100%; /* Força a ocupar todo o espaço horizontal disponível */
+  box-sizing: border-box; /* Garante que as bordas não quebrem o layout */
+}
+
+/* Centraliza os cards dentro da célula do grid */
+.collection-grid .product-card {
+  width: 100%;
+  max-width: 100%; /* Remove a limitação fixa do ProductCard original se houver */
+}
+
+.empty-category {
+  text-align: center;
+  padding: 50px;
+  color: #999;
+}
