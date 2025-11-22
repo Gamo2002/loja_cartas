@@ -67,11 +67,21 @@ const Header = () => {
       <nav className="header-nav">
         <div className="container">
           <ul>
-            <li><a href="#pokemon">Pokémon</a></li>
-            <li><a href="#magic">Magic: The Gathering</a></li>
-            <li><a href="#onepiece">One Piece</a></li>
-            <li><a href="#yugioh">Yu-Gi-Oh!</a></li>
-            <li><a href="#acessorios">Acessórios</a></li>
+            <li>
+                <Link to="/colecao/pokemon">Pokémon</Link>
+                </li>
+                <li>
+                <Link to="/colecao/magic">Magic: The Gathering</Link>
+                </li>
+                <li>
+                <Link to="/colecao/onepiece">One Piece</Link>
+                </li>
+                <li>
+                <Link to="/colecao/yugioh">Yu-Gi-Oh!</Link>
+                </li>
+                <li>
+                <Link to="/colecao/acessoriosTCG">Acessórios</Link>
+            </li>
           </ul>
         </div>
       </nav>

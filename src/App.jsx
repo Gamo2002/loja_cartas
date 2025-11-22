@@ -10,6 +10,7 @@ import Footer from './components/Footer/Footer';
 import Home from './pages/Home/Home';
 import ProductPage from './pages/ProductPage/ProductPage';
 import CartPage from './pages/CartPage/CartPage'; 
+import CollectionPage from './pages/CollectionPage/CollectionPage';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           {/* Quando o link for /produto, some a Home e aparece a tela de compra */}
           <Route path="/produto/:id" element={<ProductPage />} />
           <Route path="/carrinho" element={<CartPage />} />
+          <Route path="/colecao/:category" element={<CollectionPage />} />
         </Routes>
       </main>
 
