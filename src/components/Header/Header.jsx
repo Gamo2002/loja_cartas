@@ -1,11 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Header.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Search, MapPin, User, Heart, ShoppingCart } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 
 const Header = () => {
   const { cartItems } = useCart();
+  const [searchTerm, setSearchTerm] = useState(""); // Guarda o texto
+  const navigate = useNavigate(); // Função para mudar de página
+
+  const handleSearch = (e) => {
+    e.preventDefault(); // Evita que a página recarregue
+    if (searchTerm.trim()) {
+      navigate(`/busca?q=${searchTerm}`); // Manda para a página de busca
+      setSearchTerm(""); // Limpa o campo depois de buscar
+    }
+  };
+
   return (
     <header className="header">
       <div className="header-top">
@@ -19,10 +30,17 @@ const Header = () => {
           </div>
 
           {/* 2. Barra de Busca */}
-          <div className="search-bar">
-            <input type="text" placeholder="O que você procura?" />
-            <button><Search size={20} color="#0af4aaff" /></button>
-          </div>
+          <form className="search-bar" onSubmit={handleSearch}>
+            <input 
+              type="text" 
+              placeholder="O que você procura?" 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)} // Atualiza o estado enquanto digita
+            />
+            <button type="submit">
+                <Search size={20} color="#0af4aaff" />
+            </button>
+          </form>
 
           {/* 3. Ações (CEP, Login, Favoritos, Carrinho) */}
           <div className="actions">
@@ -67,11 +85,21 @@ const Header = () => {
       <nav className="header-nav">
         <div className="container">
           <ul>
-            <li><a href="#pokemon">Pokémon</a></li>
-            <li><a href="#magic">Magic: The Gathering</a></li>
-            <li><a href="#onepiece">One Piece</a></li>
-            <li><a href="#yugioh">Yu-Gi-Oh!</a></li>
-            <li><a href="#acessorios">Acessórios</a></li>
+            <li>
+                <Link to="/colecao/pokemon">Pokémon</Link>
+                </li>
+                <li>
+                <Link to="/colecao/magic">Magic: The Gathering</Link>
+                </li>
+                <li>
+                <Link to="/colecao/onepiece">One Piece</Link>
+                </li>
+                <li>
+                <Link to="/colecao/yugioh">Yu-Gi-Oh!</Link>
+                </li>
+                <li>
+                <Link to="/colecao/acessoriosTCG">Acessórios</Link>
+            </li>
           </ul>
         </div>
       </nav>
