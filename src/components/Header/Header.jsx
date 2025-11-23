@@ -45,13 +45,13 @@ const Header = () => {
           {/* 3. Ações (CEP, Login, Favoritos, Carrinho) */}
           <div className="actions">
                         
-            <div className="action-item">
+            <Link to="/login" className="action-item" style={{textDecoration: 'none', color: 'inherit'}}>
               <User size={20} />
               <div className="user-info hide-mobile">
                 <span>Entre ou cadastre-se</span>
                 <strong>Meus pedidos</strong>
               </div>
-            </div>
+            </Link>
 
             
               <Link to="/carrinho" className="icon-btn" style={{textDecoration: 'none', color: 'inherit', position: 'relative'}}>
