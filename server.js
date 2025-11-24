@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import pg from 'pg'; // Importação diferente para o pacote 'pg'
 import bcrypt from 'bcrypt';
+const path = require('path'); // <--- 1. Importe o 'path'
 
 const { Pool } = pg; // Desestrutura o Pool daqui
 
