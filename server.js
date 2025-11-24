@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'dist')));
 
 // Configuração do Banco de Dados
 const pool = new Pool({
-  connectionString: 'postgresql://postgres:Trabweb2@db.anftrfowihpmhnnuiszh.supabase.co:5432/postgres',
+  connectionString: 'postgresql://postgres:Trabweb2@db.anftrfowihpmhnnuiszh.supabase.co:6543/postgres',
   ssl: {
     rejectUnauthorized: false, 
   },
