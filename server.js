@@ -8,6 +8,14 @@ const { Pool } = pg; // Desestrutura o Pool daqui
 const app = express();
 const port = 3000;
 
+// 1. Dizer ao Express para servir os arquivos estáticos da pasta 'dist' (criada pelo Vite)
+app.use(express.static(path.join(__dirname, 'dist')));
+
+// 2. Qualquer rota que não seja API, manda para o index.html (para o React controlar as rotas)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
 // ... O resto do código continua igual daqui para baixo ...
 
 // Habilita o CORS para o frontend acessar
