@@ -13,9 +13,8 @@
   padding: 0 20px;
 }
 
-/* --- PARTE SUPERIOR (VERMELHA) --- */
 .header-top {
-  background-color: #0af4aaff; /* Vermelho estilo Centauro */
+  background-color: #0af4aaff;
   padding: 15px 0;
   color: white;
 }
@@ -27,6 +26,16 @@
   letter-spacing: -1px;
   margin: 0;
   font-size: 24px;
+}
+.logo-link {
+  text-decoration: none;
+  color: inherit; /* Herda a cor branca do pai (.header-top) */
+  cursor: pointer;
+  display: block; /* Garante que o clique pegue a área toda */
+}
+
+.logo-link:hover {
+  opacity: 0.9; /* Um efeitinho sutil quando passa o mouse */
 }
 .logo-highlight {
   font-weight: 300;

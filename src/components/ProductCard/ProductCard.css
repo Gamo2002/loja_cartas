@@ -1,6 +1,5 @@
 .product-card {
-  min-width: 200px; /* Garante que o card não esmague */
-  max-width: 200px;
+  width: 100%;
   background: white;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
@@ -11,6 +10,7 @@
   position: relative;
   transition: transform 0.2s;
   cursor: pointer;
+  height: 100%;
 }
 
 .product-card:hover {

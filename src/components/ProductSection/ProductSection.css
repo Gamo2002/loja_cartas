@@ -28,3 +28,8 @@
   background: #ccc;
   border-radius: 4px;
 }
+
+.products-grid .product-card {
+  min-width: 220px;
+  max-width: 220px;
+}
