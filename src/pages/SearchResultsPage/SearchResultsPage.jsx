@@ -15,7 +15,7 @@ const SearchResultsPage = () => {
     // Ao iniciar (ou mudar a busca), busca no banco
     setLoading(true);
     
-    fetch('http://localhost:3000/api/produtos')
+    fetch('/api/produtos')
       .then(response => response.json())
       .then(data => {
         // Assim que os dados chegam, aplicamos o filtro

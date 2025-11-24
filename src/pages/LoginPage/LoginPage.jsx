@@ -37,8 +37,9 @@ const LoginPage = () => {
       ...( !isLogin && { nome: formData.name }) // Só envia nome se for cadastro
     };
 
-    try {
-      const response = await fetch(`http://localhost:3000${endpoint}`, {
+   try {
+      // AQUI ESTÁ A MUDANÇA: Usamos apenas 'endpoint' (que já começa com /)
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
