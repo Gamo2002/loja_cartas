@@ -26,7 +26,21 @@ const CollectionPage = () => {
   }, []); // O array vazio [] garante que isso rode apenas uma vez ao abrir a página
 
   // 3. A lógica de filtro continua igual (filtra o que veio do banco)
-  const filteredProducts = products.filter(p => p.category === category);
+  // Lógica de Filtro Aprimorada
+  const filteredProducts = products.filter(p => {
+    // Se o produto não tiver categoria, ignora
+    if (!p.category) return false;
+
+    // Limpa a categoria do BANCO (tira traços e põe minúsculo)
+    // Ex: "Yu-Gi-Oh" vira "yugioh"
+    const catBanco = p.category.toString().toLowerCase().replace(/-/g, '');
+
+    // Limpa a categoria da URL (tira traços e põe minúsculo)
+    // Ex: "yu-gi-oh" vira "yugioh"
+    const catURL = category.toString().toLowerCase().replace(/-/g, '');
+
+    return catBanco === catURL;
+  });
 
   const pageTitles = {
     'pokemon': 'Pokémon TCG',

@@ -1,20 +1,46 @@
-import React from 'react';
-import { useSearchParams } from 'react-router-dom'; // Hook para ler a URL (?q=...)
-import { products } from '../../data/products';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import '../CollectionPage/CollectionPage.css'; 
 
 const SearchResultsPage = () => {
   const [searchParams] = useSearchParams();
-  const query = searchParams.get('q'); // Pega o que está escrito depois do q=
+  const query = searchParams.get('q') || ''; // Pega o texto da busca (ou vazio se não tiver nada)
+  
+  // Estado para guardar os resultados filtrados
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // Lógica de Filtragem
-  const filteredProducts = products.filter(product => 
-    product.name.toLowerCase().includes(query.toLowerCase())
-  );
+  useEffect(() => {
+    // Ao iniciar (ou mudar a busca), busca no banco
+    setLoading(true);
+    
+    fetch('http://localhost:3000/api/produtos')
+      .then(response => response.json())
+      .then(data => {
+        // Assim que os dados chegam, aplicamos o filtro
+        if (!query) {
+          setFilteredProducts([]);
+        } else {
+          const results = data.filter(product => 
+            product.name.toLowerCase().includes(query.toLowerCase())
+          );
+          setFilteredProducts(results);
+        }
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error("Erro ao buscar produtos:", error);
+        setLoading(false);
+      });
+  }, [query]); // Esse array [query] faz a busca rodar de novo se o usuário digitar outra coisa
+
+  if (loading) {
+    return <div className="collection-page container" style={{marginTop: '50px'}}><h2>Buscando...</h2></div>;
+  }
 
   return (
-    <div className="collection-page container"> {/* Usando classes existentes */}
+    <div className="collection-page container">
       <div className="collection-header">
         <h1>Resultados para: "{query}"</h1>
         <p>{filteredProducts.length} produtos encontrados</p>
@@ -29,14 +55,15 @@ const SearchResultsPage = () => {
               name={product.name}
               price={product.price}
               image={product.image}
-              type={product.type}
+              // Atualizado para usar description (que contém o Foil/Lendário)
+              description={product.description}
             />
           ))}
         </div>
       ) : (
         <div className="empty-category">
           <h2>Ops! Não encontramos nada com esse nome.</h2>
-          <p>Tente buscar pelo nome do produto Exemplo:"Charizard".</p>
+          <p>Tente buscar pelo nome do produto Exemplo: "Charizard".</p>
         </div>
       )}
     </div>

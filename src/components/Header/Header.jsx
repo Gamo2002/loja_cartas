@@ -92,9 +92,6 @@ const Header = () => {
                 <Link to="/colecao/magic">Magic: The Gathering</Link>
                 </li>
                 <li>
-                <Link to="/colecao/onepiece">One Piece</Link>
-                </li>
-                <li>
                 <Link to="/colecao/yugioh">Yu-Gi-Oh!</Link>
                 </li>
                 <li>

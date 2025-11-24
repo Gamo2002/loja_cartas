@@ -1,8 +1,8 @@
 import React from 'react';
-import './ProductCard.css';
+import './ProductCard.css'; // Importa o CSS do card, não da página
 import { useNavigate } from 'react-router-dom';
 
-// Agora recebemos 'description' em vez de 'type'
+// Recebe 'description' para gerar a etiqueta
 const ProductCard = ({ id, image, name, price, description }) => {
   const navigate = useNavigate();
 
@@ -10,11 +10,8 @@ const ProductCard = ({ id, image, name, price, description }) => {
     navigate(`/produto/${id}`);
   };
 
-  // Lógica Inteligente:
-  // Verifica se a palavra "Foil" ou "Lendário" existe dentro da descrição
-  // Se existir, definimos isso como o tipo para mostrar na etiqueta.
+  // Lógica para detectar se é FOIL/Lendário baseado na descrição
   let badgeText = null;
-  
   if (description) {
     const descLower = description.toLowerCase();
     if (descLower.includes('foil')) badgeText = 'FOIL';
@@ -24,8 +21,7 @@ const ProductCard = ({ id, image, name, price, description }) => {
 
   return (
     <div className="product-card" onClick={handleClick}>
-      
-      {/* Só mostra a etiqueta se a nossa lógica encontrou uma palavra chave */}
+      {/* Etiqueta condicional */}
       {badgeText && <span className="card-badge">{badgeText}</span>}
       
       <img src={image} alt={name} className="card-image" />
