@@ -1,29 +1,49 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { products } from '../../data/products';
+// ❌ O import estático foi removido: import { products } from '../../data/products';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import './CollectionPage.css';
 
 const CollectionPage = () => {
-  const { category } = useParams(); // Pega o nome da URL (ex: 'pokemon', 'magic')
+  const { category } = useParams(); 
+  
+  // 1. Estado para armazenar os produtos que vêm do banco
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true); // Para mostrar "Carregando..."
 
-  // Filtra os produtos baseados na categoria da URL
+  // 2. Busca os dados no Backend assim que a página abre
+  useEffect(() => {
+    fetch('http://localhost:3000/api/produtos') // ⚠️ Verifique se a porta é 3000 ou outra
+      .then(response => response.json())
+      .then(data => {
+        setProducts(data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error("Erro ao buscar produtos:", error);
+        setLoading(false);
+      });
+  }, []); // O array vazio [] garante que isso rode apenas uma vez ao abrir a página
+
+  // 3. A lógica de filtro continua igual (filtra o que veio do banco)
   const filteredProducts = products.filter(p => p.category === category);
 
-  // Um dicionário simples para deixar o título bonito na tela
   const pageTitles = {
     'pokemon': 'Pokémon TCG',
     'magic': 'Magic: The Gathering',
-    'yugioh': 'Yu-Gi-Oh!',
+    'yu-gi-oh': 'Yu-Gi-Oh!',
     'onepiece': 'One Piece Card Game',
-    'acessorios': 'Acessórios e Sleeves'
+    'acessoriosTCG': 'Acessórios e Sleeves' // Ajustei para bater com o banco se necessário
   };
+
+  if (loading) {
+    return <div className="collection-page container"><h2>Carregando cartas...</h2></div>;
+  }
 
   return (
     <div className="collection-page container">
       <div className="collection-header">
-        {/* Se o título existir no dicionário, usa ele. Se não, usa o da URL mesmo */}
-        <h1>{pageTitles[category] || category}</h1>
+        <h1>{pageTitles[category] || category.toUpperCase()}</h1>
         <p>{filteredProducts.length} produtos encontrados</p>
       </div>
 
@@ -36,7 +56,8 @@ const CollectionPage = () => {
               name={product.name}
               price={product.price}
               image={product.image}
-              type={product.type}
+              // type={product.type} -> REMOVIDO pois agora está na descrição
+              description={product.description} // Passando a descrição para o Card
             />
           ))}
         </div>
