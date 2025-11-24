@@ -5,12 +5,13 @@ import { CartProvider } from './context/CartContext';
 // Componentes Fixos (Header e Footer aparecem em TODAS as páginas)
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
-
 // As Páginas
 import Home from './pages/Home/Home';
 import ProductPage from './pages/ProductPage/ProductPage';
 import CartPage from './pages/CartPage/CartPage'; 
 import CollectionPage from './pages/CollectionPage/CollectionPage';
+import SearchResultsPage from './pages/SearchResultsPage/SearchResultsPage';
+import LoginPage from './pages/LoginPage/LoginPage';
 
 function App() {
   return (
@@ -27,6 +28,9 @@ function App() {
           <Route path="/produto/:id" element={<ProductPage />} />
           <Route path="/carrinho" element={<CartPage />} />
           <Route path="/colecao/:category" element={<CollectionPage />} />
+          <Route path="/busca" element={<SearchResultsPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          
         </Routes>
       </main>
 
