@@ -1,5 +1,5 @@
 // 1. CORREÇÃO DE DNS (Deve ser a primeira linha absoluta)
-const dns = require('node:dns');
+import dns from 'node:dns';
 dns.setDefaultResultOrder('ipv4first');
 
 // 2. IMPORTAÇÕES (Usando require para compatibilidade total)
