@@ -8,7 +8,7 @@ const Home = () => {
 
   // 2. Busca os dados no servidor ao carregar a página
   useEffect(() => {
-    fetch('/api/produtos')
+    fetch('http://localhost:3000/api/produtos')
       .then(res => res.json())
       .then(data => setProducts(data))
       .catch(err => console.error("Erro ao carregar Home:", err));

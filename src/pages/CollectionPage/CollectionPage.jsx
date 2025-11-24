@@ -13,7 +13,7 @@ const CollectionPage = () => {
 
   // 2. Busca os dados no Backend assim que a página abre
   useEffect(() => {
-    fetch('/api/produtos') // ⚠️ Verifique se a porta é 3000 ou outra
+    fetch('http://localhost:3000/api/produtos') // ⚠️ Verifique se a porta é 3000 ou outra
       .then(response => response.json())
       .then(data => {
         setProducts(data);
