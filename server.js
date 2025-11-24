@@ -1,15 +1,14 @@
-const express = require('express');
-const cors = require('cors');
-const { Pool } = require('pg');
+import express from 'express';
+import cors from 'cors';
+import pg from 'pg'; // Importação diferente para o pacote 'pg'
+import bcrypt from 'bcrypt';
+
+const { Pool } = pg; // Desestrutura o Pool daqui
 
 const app = express();
+const port = 3000;
 
-// MUDE ISTO:
-// const port = 3000; 
-
-// PARA ISTO:
-const port = process.env.PORT || 3000; 
-// (Significa: "Use a porta que a nuvem me der, se não der nenhuma, use a 3000")
+// ... O resto do código continua igual daqui para baixo ...
 
 // Habilita o CORS para o frontend acessar
 app.use(cors());
@@ -36,7 +35,7 @@ const pool = new Pool({
 });
 
 // Adicione essa linha lá no topo do arquivo server.js junto com os outros requires
-const bcrypt = require('bcrypt');
+
 
 // ... (seu código de conexão pool e rota de produtos continua igual) ...
 
