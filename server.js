@@ -4,6 +4,10 @@ import pg from 'pg';
 import bcrypt from 'bcrypt';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import dns from 'node:dns';
+dns.setDefaultResultOrder('ipv4first');
+
+import express from 'express';
 
 // --- CONFIGURAÇÃO DE CAMINHOS (Necessário para ES Modules) ---
 const __filename = fileURLToPath(import.meta.url);
@@ -27,7 +31,7 @@ app.use(express.static(path.join(__dirname, 'dist')));
 
 // Configuração do Banco de Dados
 const pool = new Pool({
-  connectionString: 'postgresql://postgres:Trabweb2@db.anftrfowihpmhnnuiszh.supabase.co:6543/postgres',
+  connectionString: 'postgresql://postgres:Trabweb2@db.anftrfowihpmhnnuiszh.supabase.co:5432/postgres',
   ssl: {
     rejectUnauthorized: false, 
   },
