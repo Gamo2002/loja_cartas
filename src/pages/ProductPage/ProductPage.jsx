@@ -12,7 +12,7 @@ const ProductPage = () => {
   const { addToCart } = useCart();
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/produtos')
+    fetch('https://undeprecating-randell-periproctic.ngrok-free.dev/api/produtos')
       .then(response => response.json())
       .then(data => {
         const foundProduct = data.find(p => p.id === parseInt(id));

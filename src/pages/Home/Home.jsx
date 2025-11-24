@@ -8,7 +8,7 @@ const Home = () => {
 
   // 2. Busca os dados no servidor ao carregar a página
   useEffect(() => {
-    fetch('http://localhost:3000/api/produtos')
+    fetch('https://undeprecating-randell-periproctic.ngrok-free.dev/api/produtos')
       .then(res => res.json())
       .then(data => setProducts(data))
       .catch(err => console.error("Erro ao carregar Home:", err));
