@@ -2,23 +2,13 @@ import express from 'express';
 import cors from 'cors';
 import pg from 'pg'; // Importação diferente para o pacote 'pg'
 import bcrypt from 'bcrypt';
-import path from 'path';             
-import { fileURLToPath } from 'url';
 
 const { Pool } = pg; // Desestrutura o Pool daqui
 
 const app = express();
 const port = 3000;
 
-// 1. Dizer ao Express para servir os arquivos estáticos da pasta 'dist' (criada pelo Vite)
-app.use(express.static(path.join(__dirname, 'dist')));
-
-// 2. Qualquer rota que não seja API, manda para o index.html (para o React controlar as rotas)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
-
-
+// ... O resto do código continua igual daqui para baixo ...
 
 // Habilita o CORS para o frontend acessar
 app.use(cors());
@@ -31,6 +21,12 @@ const pool = new Pool({
   // Ela parece com: postgres://usuario:senha@host-do-banco.com:5432/nome-do-banco
   connectionString: 'postgresql://postgres:Trabweb2@db.anftrfowihpmhnnuiszh.supabase.co:5432/postgres',
 
+  // Opção 2: Se preferir colocar separado (igual você tinha antes):
+  // user: 'usuario_da_nuvem',
+  // host: 'db.xyz.supabase.co',
+  // database: 'postgres',
+  // password: 'senha_da_nuvem',
+  // port: 5432,
 
   // IMPORTANTE: Bancos na nuvem EXIGEM isso aqui para aceitar conexão externa:
   ssl: {
@@ -38,6 +34,10 @@ const pool = new Pool({
   },
 });
 
+// Adicione essa linha lá no topo do arquivo server.js junto com os outros requires
+
+
+// ... (seu código de conexão pool e rota de produtos continua igual) ...
 
 // ROTA 1: CADASTRAR USUÁRIO
 app.post('/auth/register', async (req, res) => {
