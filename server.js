@@ -115,7 +115,7 @@ app.get('/api/produtos', async (req, res) => {
 // ================= ROTA DO FRONT END (Coringa) =================
 // ATENÇÃO: Essa rota deve ficar SEMPRE no final, depois de todas as APIs.
 // Ela garante que qualquer rota que não seja API vai carregar o site.
-app.get('(.*)', (req, res) => {
+app.get(/.*/, (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
