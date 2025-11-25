@@ -101,3 +101,31 @@
   margin-left: 5px;
   text-decoration: underline;
 }
+
+/* Adicione isso ao final do seu LoginPage.css */
+
+.form-row {
+  display: flex;
+  gap: 10px; /* Espaço entre os inputs */
+  width: 100%;
+}
+
+.section-divider {
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  line-height: 0.1em;
+  margin: 20px 0;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.section-divider span {
+  background: #fff; /* Mesma cor do fundo do card */
+  padding: 0 10px;
+}
+
+/* Ajuste para o container ficar maior quando for cadastro */
+.login-container.register-mode {
+  max-width: 500px; /* Um pouco mais largo para caber o endereço */
+}
