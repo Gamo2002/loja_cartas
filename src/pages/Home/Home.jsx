@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ProductSection from '../../components/ProductSection/ProductSection';
 import ProductCard from '../../components/ProductCard/ProductCard';
 
+
 const Home = () => {
   // 1. Estado para guardar as cartas que vêm do banco
   const [products, setProducts] = useState([]);

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, Lock, Mail, ArrowRight } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext'; // Importando o contexto
 import './LoginPage.css';
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const { login } = useAuth(); // Pegando a função de login do contexto
   const [isLogin, setIsLogin] = useState(true);
   
   // Estado para guardar o que o usuário digita
@@ -29,8 +31,6 @@ const LoginPage = () => {
     const endpoint = isLogin ? '/auth/login' : '/auth/register';
     
     // Prepara os dados para enviar
-    // Nota: O backend espera 'nome', 'email', 'senha'. O front tem 'name', 'password'.
-    // Vamos mapear aqui:
     const payload = {
       email: formData.email,
       senha: formData.password,
@@ -47,16 +47,25 @@ const LoginPage = () => {
       const data = await response.json();
 
       if (response.ok) {
-        alert(data.message); // Ex: "Usuário criado!" ou "Login realizado!"
+        alert(data.message); 
         
-        // Se criou conta, muda para a tela de login. Se logou, vai para Home.
+        // Lógica de Sucesso
         if (!isLogin) {
+          // Se acabou de criar conta, muda para a tela de login
           setIsLogin(true); 
         } else {
+          // SE FEZ LOGIN:
+          // 1. Prepara os dados do usuário. Se o backend não mandar o objeto 'user', criamos um temporário com o email.
+          const userData = data.user || { name: formData.email.split('@')[0], email: formData.email };
+          
+          // 2. Salva no contexto global (Isso atualiza o Header)
+          login(userData);
+          
+          // 3. Redireciona para a Home
           navigate('/');
         }
       } else {
-        // Mostra o erro que veio do backend (Ex: "Senha incorreta")
+        // Mostra o erro que veio do backend
         alert(data.error || "Ocorreu um erro.");
       }
 
@@ -77,7 +86,7 @@ const LoginPage = () => {
 
         <form onSubmit={handleSubmit}>
           
-          {/* Nome (Só no cadastro) */}
+          {/* Nome (Só aparece no cadastro) */}
           {!isLogin && (
             <div className="input-group">
               <User size={20} className="input-icon" />
