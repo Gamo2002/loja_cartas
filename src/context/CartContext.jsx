@@ -1,44 +1,58 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 
-// 1. Cria o Contexto (a "nuvem")
 const CartContext = createContext();
 
-// 2. Cria o Provedor (o componente que vai envolver o App inteiro)
 export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState(() => {
+    const savedCart = localStorage.getItem('cartItems');
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
 
-  // Função para adicionar ao carrinho
-  const addToCart = (product, quantity = 1) => {
+  useEffect(() => {
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+  }, [cartItems]);
+
+  const addToCart = (product, quantity) => {
     setCartItems(prevItems => {
-      // Verifica se o item já existe no carrinho
-      const itemExists = prevItems.find(item => item.id === product.id);
+      const existingItem = prevItems.find(item => item.id === product.id);
+      
+      // Garante que temos um valor de estoque, ou assume infinito se der erro
+      const estoqueMaximo = product.stock || 999; 
 
-      if (itemExists) {
-        // Se existe, só aumenta a quantidade
+      if (existingItem) {
+        // Se já existe, soma a nova quantidade, MAS respeita o limite do estoque
         return prevItems.map(item =>
           item.id === product.id
-            ? { ...item, quantity: item.quantity + quantity }
+            ? { ...item, quantity: Math.min(estoqueMaximo, item.quantity + quantity) }
             : item
         );
       } else {
-        // Se não existe, adiciona o novo item
-        return [...prevItems, { ...product, quantity }];
+        // Se é novo, adiciona (mas também garante que não passou do estoque)
+        return [...prevItems, { ...product, quantity: Math.min(estoqueMaximo, quantity) }];
       }
     });
   };
 
-  // Função para remover do carrinho
-  const removeFromCart = (productId) => {
-    setCartItems(prevItems => prevItems.filter(item => item.id !== productId));
+  const removeFromCart = (id) => {
+    setCartItems(prevItems => prevItems.filter(item => item.id !== id));
   };
 
-  // Função para alterar quantidade (botões + e - no carrinho)
-  const updateQuantity = (productId, amount) => {
+  // --- AQUI É A MUDANÇA PRINCIPAL ---
+  const updateQuantity = (id, change) => {
     setCartItems(prevItems => 
       prevItems.map(item => {
-        if (item.id === productId) {
-          // Não deixa a quantidade ser menor que 1
-          const newQuantity = Math.max(1, item.quantity + amount);
+        if (item.id === id) {
+          const estoqueMaximo = item.stock || 999;
+          
+          // Calcula o novo valor
+          let newQuantity = item.quantity + change;
+
+          // Regra 1: Não pode ser menor que 1
+          if (newQuantity < 1) newQuantity = 1;
+
+          // Regra 2: Não pode ser maior que o estoque
+          if (newQuantity > estoqueMaximo) newQuantity = estoqueMaximo;
+
           return { ...item, quantity: newQuantity };
         }
         return item;
@@ -46,21 +60,22 @@ export const CartProvider = ({ children }) => {
     );
   };
 
-  // Calcula o valor total do carrinho
+  const clearCart = () => {
+    setCartItems([]);
+  };
+
   const cartTotal = cartItems.reduce((total, item) => {
-    // Remove pontos e virgulas para calcular (ex: "299,90" -> 299.90)
-    // Nota: Se seus preços no products.js forem strings "299,90", precisa tratar.
-    // Vou assumir que no products.js você mudou para Strings, vamos limpar:
-    const priceNumber = parseFloat(item.price.replace('.', '').replace(',', '.'));
-    return total + (priceNumber * item.quantity);
+    const price = parseFloat(item.price); 
+    return total + (price * item.quantity);
   }, 0);
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateQuantity, cartTotal }}>
+    <CartContext.Provider value={{ 
+      cartItems, addToCart, removeFromCart, updateQuantity, clearCart, cartTotal 
+    }}>
       {children}
     </CartContext.Provider>
   );
 };
 
-// Hook personalizado para usar o carrinho mais fácil
 export const useCart = () => useContext(CartContext);

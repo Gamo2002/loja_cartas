@@ -7,6 +7,13 @@ import './CartPage.css';
 const CartPage = () => {
   const { cartItems, removeFromCart, updateQuantity, cartTotal } = useCart();
 
+  const formatMoney = (value) => {
+    return parseFloat(value).toLocaleString('pt-BR', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+  };
+
   if (cartItems.length === 0) {
     return (
       <div className="empty-cart container">
@@ -22,40 +29,65 @@ const CartPage = () => {
       <h1>Meu Carrinho</h1>
       
       <div className="cart-content">
-        {/* Lista de Produtos */}
         <div className="cart-items">
-          {cartItems.map(item => (
-            <div key={item.id} className="cart-item">
-              <img src={item.image} alt={item.name} />
-              
-              <div className="item-details">
-                <h3>{item.name}</h3>
-                <span className="item-type">{item.type}</span>
-              </div>
+          {cartItems.map(item => {
+            // Verifica se atingiu o limite para bloquear o botão
+            const estoque = item.stock || 0;
+            const atingiuLimite = item.quantity >= estoque;
 
-              <div className="item-quantity">
-                <button onClick={() => updateQuantity(item.id, -1)}><Minus size={14}/></button>
-                <span>{item.quantity}</span>
-                <button onClick={() => updateQuantity(item.id, 1)}><Plus size={14}/></button>
-              </div>
+            return (
+              <div key={item.id} className="cart-item">
+                <img src={item.image} alt={item.name} />
+                
+                <div className="item-details">
+                  <h3>{item.name}</h3>
+                  <span className="item-type">
+                     {item.description ? item.description.substring(0, 30) + '...' : ''}
+                  </span>
+                  {/* Aviso visual de estoque */}
+                  <span style={{fontSize: '0.75rem', color: '#888'}}>
+                    Estoque: {estoque} un.
+                  </span>
+                </div>
 
-              <div className="item-price">
-                <p>R$ {item.price}</p>
-              </div>
+                <div className="item-quantity">
+                  <button onClick={() => updateQuantity(item.id, -1)}>
+                    <Minus size={14}/>
+                  </button>
+                  
+                  <span>{item.quantity}</span>
+                  
+                  {/* Botão de + fica desabilitado se atingiu o limite */}
+                  <button 
+                    onClick={() => updateQuantity(item.id, 1)}
+                    disabled={atingiuLimite}
+                    style={atingiuLimite ? { opacity: 0.3, cursor: 'not-allowed' } : {}}
+                    title={atingiuLimite ? "Estoque máximo atingido" : "Adicionar mais"}
+                  >
+                    <Plus size={14}/>
+                  </button>
+                </div>
 
-              <button className="remove-btn" onClick={() => removeFromCart(item.id)}>
-                <Trash2 size={18} />
-              </button>
-            </div>
-          ))}
+                <div className="item-price">
+                  <p>R$ {formatMoney(item.price)}</p>
+                  <span style={{fontSize: '0.8rem', color: '#666'}}>
+                    Total: R$ {formatMoney(item.price * item.quantity)}
+                  </span>
+                </div>
+
+                <button className="remove-btn" onClick={() => removeFromCart(item.id)}>
+                  <Trash2 size={18} />
+                </button>
+              </div>
+            );
+          })}
         </div>
 
-        {/* Resumo do Pedido */}
         <div className="cart-summary">
           <h2>Resumo do Pedido</h2>
           <div className="summary-row">
             <span>Subtotal</span>
-            <span>R$ {cartTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
+            <span>R$ {formatMoney(cartTotal)}</span>
           </div>
           <div className="summary-row">
             <span>Frete</span>
@@ -64,10 +96,12 @@ const CartPage = () => {
           <div className="summary-divider"></div>
           <div className="summary-row total">
             <span>Total</span>
-            <span>R$ {cartTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
+            <span>R$ {formatMoney(cartTotal)}</span>
           </div>
           
-          <button className="checkout-btn">FINALIZAR COMPRA</button>
+          <button className="checkout-btn" onClick={() => alert("Indo para pagamento...")}>
+            FINALIZAR COMPRA
+          </button>
           <Link to="/" className="continue-link">Continuar comprando</Link>
         </div>
       </div>

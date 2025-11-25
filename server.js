@@ -95,7 +95,7 @@ app.get('/api/produtos', async (req, res) => {
         p.id_produto AS id,
         LOWER(p.categoria::text) AS category,
         p.nome AS name,
-        TO_CHAR(p.preco, 'FM999G990D00') AS price,
+        p.preco::float AS price,
         i.url_imagem AS image,
         p.descricao AS description,
         p.quantidade_estoque AS stock

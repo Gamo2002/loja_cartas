@@ -39,6 +39,10 @@ const CollectionPage = () => {
     // Ex: "yu-gi-oh" vira "yugioh"
     const catURL = category.toString().toLowerCase().replace(/-/g, '');
 
+    if (catURL.includes('acessorio') && catBanco.includes('acessorio')) {
+    return true;
+    }
+    
     return catBanco === catURL;
   });
 
@@ -47,7 +51,7 @@ const CollectionPage = () => {
     'magic': 'Magic: The Gathering',
     'yu-gi-oh': 'Yu-Gi-Oh!',
     'onepiece': 'One Piece Card Game',
-    'acessoriosTCG': 'Acessórios e Sleeves' // Ajustei para bater com o banco se necessário
+    'acessorio': 'Acessórios e Sleeves' // Ajustei para bater com o banco se necessário
   };
 
   if (loading) {

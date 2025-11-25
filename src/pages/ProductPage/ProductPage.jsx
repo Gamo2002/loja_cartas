@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'; 
-import { ShoppingCart, CreditCard, Package } from 'lucide-react'; // Importei o ícone Package
+import { ShoppingCart, CreditCard, Package } from 'lucide-react';
 import './ProductPage.css';
 import { useCart } from '../../context/CartContext';
 
@@ -12,6 +12,7 @@ const ProductPage = () => {
   const { addToCart } = useCart();
 
   useEffect(() => {
+    // Mantive seu link do ngrok
     fetch('https://undeprecating-randell-periproctic.ngrok-free.dev/api/produtos')
       .then(response => response.json())
       .then(data => {
@@ -28,6 +29,7 @@ const ProductPage = () => {
   if (loading) return <div className="container" style={{padding:'50px'}}><h2>Carregando...</h2></div>;
   if (!product) return <div className="container" style={{padding:'50px'}}><h2>Produto não encontrado!</h2></div>;
 
+  // Lógica de Detecção do Tipo
   let detectedType = "Padrão";
   if (product.description) {
     const desc = product.description.toLowerCase();
@@ -36,7 +38,7 @@ const ProductPage = () => {
     else if (desc.includes('rare')) detectedType = "Rara";
   }
 
-  // Verifica se tem estoque (se stock for null ou undefined, assume 0)
+  // Lógica de Estoque
   const estoqueAtual = product.stock || 0;
   const isEsgotado = estoqueAtual === 0;
 
@@ -57,14 +59,18 @@ const ProductPage = () => {
           <p className="product-collection">
             Coleção {product.category ? product.category.toUpperCase() : ''} | {detectedType}
           </p>
-
+          
           <div className="price-box">
             <span className="currency">R$</span>
-            <span className="value">{product.price}</span>
+            
+            {/* ✅ AQUI ESTÁ A MUDANÇA: Formatando o número para virar dinheiro (Vírgula e 2 casas) */}
+            <span className="value">
+              {parseFloat(product.price).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+            </span>
+
             <p className="payment-info"><CreditCard size={16} /> Cartão ou Pix</p>
           </div>
 
-          {/* MOSTRAR O ESTOQUE AQUI */}
           <div className="stock-info" style={{ margin: '15px 0', color: '#666', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Package size={18} />
             {isEsgotado ? (
@@ -75,19 +81,15 @@ const ProductPage = () => {
           </div>
 
           <div className="purchase-actions">
-            {/* Seletor de Quantidade Inteligente */}
             <div className="quantity-selector" style={isEsgotado ? {opacity: 0.5, pointerEvents: 'none'} : {}}>
               <button onClick={() => setQuantity(q => Math.max(1, q - 1))}>-</button>
-              
               <span>{quantity}</span>
-              
-              {/* O botão + trava se tentar passar do estoque */}
               <button onClick={() => setQuantity(q => Math.min(estoqueAtual, q + 1))}>+</button>
             </div>
             
             <button 
               className="btn-buy" 
-              disabled={isEsgotado} // Desabilita o botão se não tiver estoque
+              disabled={isEsgotado} 
               style={isEsgotado ? { backgroundColor: '#ccc', cursor: 'not-allowed' } : {}}
               onClick={() => {
                 addToCart(product, quantity);
