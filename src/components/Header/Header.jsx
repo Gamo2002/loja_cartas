@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import './Header.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, User, ShoppingCart, LogOut } from 'lucide-react'; // Adicionei LogOut
+import { Search, User, ShoppingCart, LogOut } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
-import { useAuth } from '../../context/AuthContext'; // <--- Importe o Auth
+import { useAuth } from '../../context/AuthContext';
 
 const Header = () => {
   const { cartItems } = useCart();
-  const { user, logout } = useAuth(); // <--- Pegue o user e logout
+  const { user, logout } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
@@ -48,24 +48,36 @@ const Header = () => {
           </form>
 
           <div className="actions">
-            {/* LÓGICA DO USUÁRIO AQUI */}
+            
+            {/* LÓGICA DO USUÁRIO */}
             {user ? (
-                // SE ESTIVER LOGADO:
+                // --- USUÁRIO LOGADO ---
                 <div className="action-item" style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+                    <User size={20} />
                     <div className="user-info hide-mobile">
                         <span>Olá, {user.name || user.nome}</span>
-                        <strong onClick={handleLogout} style={{cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px'}}>
-                            Sair <LogOut size={14}/>
-                        </strong>
+                        
+                        <div style={{display: 'flex', gap: '10px', fontSize: '0.85rem'}}>
+                            {/* Link adicionado para o Histórico */}
+                            <Link to="/historico" style={{textDecoration: 'none', color: 'inherit', fontWeight: 'bold'}}>
+                                Meus Pedidos
+                            </Link>
+                            
+                            <span>|</span>
+
+                            <strong onClick={handleLogout} style={{cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px', color: '#cc0000'}}>
+                                Sair <LogOut size={12}/>
+                            </strong>
+                        </div>
                     </div>
                 </div>
             ) : (
-                // SE NÃO ESTIVER LOGADO (Seu código original):
+                // --- USUÁRIO DESLOGADO ---
                 <Link to="/login" className="action-item" style={{textDecoration: 'none', color: 'inherit'}}>
                     <User size={20} />
                     <div className="user-info hide-mobile">
                         <span>Entre ou cadastre-se</span>
-                        <strong>Meus pedidos</strong>
+                        <strong>Minha Conta</strong>
                     </div>
                 </Link>
             )}
@@ -89,7 +101,6 @@ const Header = () => {
       </div>
 
       <nav className="header-nav">
-        {/* ... seu menu de navegação ... */}
         <div className="container">
           <ul>
             <li><Link to="/colecao/pokemon">Pokémon</Link></li>

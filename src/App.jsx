@@ -2,26 +2,28 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // Importando os Contextos
-import { CartProvider } from './context/CartContext'; // O que você acabou de mandar
-import { AuthProvider } from './context/AuthContext'; // O que criamos para o Login
+import { CartProvider } from './context/CartContext'; 
+import { AuthProvider } from './context/AuthContext'; 
 
 // Componentes
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+
+// Páginas
 import Home from './pages/Home/Home';
 import ProductPage from './pages/ProductPage/ProductPage';
 import CartPage from './pages/CartPage/CartPage'; 
 import CollectionPage from './pages/CollectionPage/CollectionPage';
 import SearchResultsPage from './pages/SearchResultsPage/SearchResultsPage';
 import LoginPage from './pages/LoginPage/LoginPage';
-
+import OrderHistory from './pages/OrderHistoryPage/OrderHistory'; // 1. Importando o Histórico
 
 function App() {
   return (
-    // 1. AuthProvider envolve tudo (para saber quem é o usuário)
+    // AuthProvider envolve tudo (para saber quem é o usuário)
     <AuthProvider> 
       
-      {/* 2. CartProvider vem dentro (para gerenciar o carrinho) */}
+      {/* CartProvider vem dentro (para gerenciar o carrinho) */}
       <CartProvider>
         
         <BrowserRouter>
@@ -35,6 +37,8 @@ function App() {
               <Route path="/colecao/:category" element={<CollectionPage />} />
               <Route path="/busca" element={<SearchResultsPage />} />
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/historico" element={<OrderHistory />} />
+              
             </Routes>
           </main>
 

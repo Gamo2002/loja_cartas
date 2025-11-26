@@ -185,6 +185,52 @@ app.post('/api/checkout', async (req, res) => {
   }
 });
 
+
+// ROTA 4: HISTÓRICO DE PEDIDOS (Adicione isso no seu server.js)
+app.get('/api/pedidos', async (req, res) => {
+  const { userId } = req.query; // Recebe o ID do usuário pela URL
+
+  if (!userId) {
+    return res.status(400).json({ error: "ID do usuário é obrigatório" });
+  }
+
+  try {
+    const query = `
+      SELECT 
+        p.id_pedido AS id,
+        p.data_pedido AS created_at,
+        p.valor_total AS total,
+        p.status_pedido AS status,
+        p.id_cliente AS user_id,
+        (
+          -- Subquery para criar o array de itens (JSON)
+          SELECT json_agg(json_build_object(
+            'name', pr.nome,
+            'quantity', pp.quantidade,
+            'price', pp.preco_unitario,
+            'image', ip.url_imagem
+          ))
+          FROM Produto_Pedido pp
+          JOIN Produtos pr ON pp.id_produto = pr.id_produto
+          LEFT JOIN Imagens_Produto ip ON pr.id_produto = ip.id_produto
+          WHERE pp.id_pedido = p.id_pedido
+        ) AS itens
+      FROM Pedido p
+      WHERE p.id_cliente = $1
+      ORDER BY p.data_pedido DESC
+    `;
+
+    const result = await pool.query(query, [userId]);
+    
+    // Se não achar nada, retorna array vazio, não erro
+    res.json(result.rows);
+
+  } catch (err) {
+    console.error("Erro ao buscar pedidos:", err);
+    res.status(500).json({ error: "Erro ao buscar histórico de pedidos" });
+  }
+});
+
 // Rota para pegar todos os produtos
 app.get('/api/produtos', async (req, res) => {
   try {
