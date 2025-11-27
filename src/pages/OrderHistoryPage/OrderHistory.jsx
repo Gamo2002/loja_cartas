@@ -10,35 +10,41 @@ const OrderHistory = () => {
   // 2. Pegue o objeto 'user' diretamente do contexto
   const { user } = useAuth(); 
 
-  useEffect(() => {
-    // Se user for null (não logado), paramos aqui
+  // Arquivo: OrderHistory.js
+
+useEffect(() => {
     if (!user) {
         setLoading(false);
         return;
     }
 
-    // Assumindo que seu objeto user tem um campo 'id'. 
-    // Se no login você salvou como 'userId', troque user.id por user.userId
-    const currentUserId = user.id; 
+    // Pega o ID correto (garantindo compatibilidade com id ou userId)
+    const currentUserId = user.id || user.userId;
 
-    fetch('https://undeprecating-randell-periproctic.ngrok-free.dev/api/pedidos')
-      .then(response => response.json())
+    // CORREÇÃO AQUI: Adicionamos o ?userId= na URL
+    fetch(`https://undeprecating-randell-periproctic.ngrok-free.dev/api/pedidos?userId=${currentUserId}`)
+      .then(response => {
+        if (!response.ok) {
+            throw new Error('Falha na resposta da API');
+        }
+        return response.json();
+      })
       .then(data => {
-        // Filtra usando o ID vindo do Contexto
-        const userOrders = data.filter(order => 
-            order.user_id === currentUserId || order.userId === currentUserId
-        );
+        // O Backend JÁ filtrou os pedidos via SQL (WHERE p.id_cliente = $1).
+        // Não precisamos fazer data.filter aqui. O 'data' já são os pedidos deste usuário.
         
-        const sortedOrders = userOrders.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        // Apenas ordenamos por data (mais recente primeiro)
+        const sortedOrders = data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
         
         setOrders(sortedOrders);
         setLoading(false);
       })
       .catch(error => {
         console.error("Erro ao buscar histórico:", error);
+        setOrders([]); // Garante lista vazia em caso de erro
         setLoading(false);
       });
-  }, [user]); // 3. A dependência agora é o objeto 'user'
+}, [user]);
 
   if (loading) {
     return <div className="history-page container"><h2>Carregando histórico...</h2></div>;
